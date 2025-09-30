@@ -2,3 +2,5 @@ streamlit
 wikipedia
 requests
 Pillow
+torch
+transformers
