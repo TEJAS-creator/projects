@@ -1,22 +1,21 @@
-# app.py
 import streamlit as st
 from PIL import Image
-import requests
+from streamlit_image_paste import image_paste
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 import torch
 
 st.set_page_config(page_title="Image Classifier", page_icon="🖼️")
-st.title("🖼️ Minimalist Image Classifier")
+st.title("🖼️ Minimalist Image Classifier (Paste Image Supported)")
 
-# Upload image
-uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+# Paste image directly
+pasted_image = image_paste("Paste your image here (Ctrl+V)")
 
-if uploaded_file:
-    # Display uploaded image
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_column_width=True)
+if pasted_image:
+    # Convert to PIL image
+    image = Image.open(pasted_image)
+    st.image(image, caption="Pasted Image", use_column_width=True)
 
-    # Load Hugging Face model and processor
+    # Load model (cached)
     @st.cache_resource(show_spinner=False)
     def load_model():
         processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224")
@@ -25,10 +24,8 @@ if uploaded_file:
 
     processor, model = load_model()
 
-    # Prepare image for model
+    # Preprocess and classify
     inputs = processor(images=image, return_tensors="pt")
-    
-    # Make prediction
     with st.spinner("Classifying..."):
         outputs = model(**inputs)
         logits = outputs.logits
