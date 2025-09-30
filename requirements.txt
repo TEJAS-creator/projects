@@ -1,7 +1,7 @@
-streamlit
+streamlit>=1.25.0
 transformers
-torch
+torch==2.3.0
 pillow
 wikipedia
-streamlit-image-paste
 requests
+streamlit-image-paste
