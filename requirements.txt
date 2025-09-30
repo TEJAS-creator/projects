@@ -1,6 +1,4 @@
 streamlit
-wikipedia
-requests
-Pillow
-torch
 transformers
+torch
+pillow
