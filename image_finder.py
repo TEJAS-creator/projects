@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-from streamlit_image_paste import image_paste
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 import torch
 
@@ -10,10 +9,8 @@ st.title("🖼️ Minimalist Image Classifier (Paste Image Supported)")
 # Paste image directly
 pasted_image = image_paste("Paste your image here (Ctrl+V)")
 
-if pasted_image:
-    # Convert to PIL image
-    image = Image.open(pasted_image)
-    st.image(image, caption="Pasted Image", use_column_width=True)
+uploaded_file = st.file_uploader("Upload your image", type=["png", "jpg", "jpeg"])
+
 
     # Load model (cached)
     @st.cache_resource(show_spinner=False)
