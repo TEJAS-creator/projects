@@ -4,13 +4,15 @@ from transformers import AutoImageProcessor, AutoModelForImageClassification
 import torch
 
 st.set_page_config(page_title="Image Classifier", page_icon="🖼️")
-st.title("🖼️ Minimalist Image Classifier (Paste Image Supported)")
+st.title("🖼️ Minimalist Image Classifier")
 
-# Paste image directly
-pasted_image = image_paste("Paste your image here (Ctrl+V)")
-
+# Upload image
 uploaded_file = st.file_uploader("Upload your image", type=["png", "jpg", "jpeg"])
 
+if uploaded_file:
+    # Display uploaded image
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Uploaded Image", use_column_width=True)
 
     # Load model (cached)
     @st.cache_resource(show_spinner=False)
